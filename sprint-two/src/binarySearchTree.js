@@ -1,19 +1,49 @@
 var BinarySearchTree = function(value) {
-	this.value = value;
-	this.right = null;
-	this.left = null;
+	var binaryTree = Object.create(binaryTreePrototype);
+	binaryTree.right = null;
+	binaryTree.left = null;
+	binaryTree.value = value;
+	return binaryTree;
 };
 
-BinarySearchTree.prototype.insert = function(value){
+var binaryTreePrototype = {};
 
+binaryTreePrototype.insert = function(value){
+	if(value < this.value){
+    	if(this.left === null){
+      		this.left = BinarySearchTree(value);
+      	} else {
+      	this.left.insert(value);
+    	}
+    } else if(value > this.value){
+  		if(this.right === null){
+      		this.right = BinarySearchTree(value);
+		} else {
+		this.right.insert(value);
+		}	
+    } else {
+
+    }	 	
 };
 
-BinarySearchTree.prototype.contains = function(value){
-
+binaryTreePrototype.contains = function(value){
+  	if(value === this.value){
+    	return true;
+  	} else if(value < this.value){
+    	return !!(this.left && this.left.contains(value));    
+  	} else if(value > this.value){
+    	return !!(this.right && this.right.contains(value));
+  	}
 };
 
-BinarySearchTree.prototype.depthFirstLog = function(cb){
-
+binaryTreePrototype.depthFirstLog = function(cb){
+	cb(this.value);
+	if(this.left){
+		this.left.depthFirstLog(cb);
+	}
+	if(this.right){
+		this.right.depthFirstLog(cb);
+	}
 };
 
 /*
